@@ -36,22 +36,22 @@ div.css-card {
 }
 
 /* User Requested Colors for Calendar Grid (Only inside columns) */
-div[data-testid="column"] button[kind="primary"], div[data-testid="column"] [data-testid="baseButton-primary"] {
+div[data-testid="stColumn"] button[kind="primary"], div[data-testid="stColumn"] [data-testid="stBaseButton-primary"] {
     background-color: rgba(100, 120, 145, 0.5) !important;
     border-color: rgba(100, 120, 145, 0.5) !important;
     color: white !important;
 }
-div[data-testid="column"] button[kind="primary"]:hover, div[data-testid="column"] [data-testid="baseButton-primary"]:hover {
+div[data-testid="stColumn"] button[kind="primary"]:hover, div[data-testid="stColumn"] [data-testid="stBaseButton-primary"]:hover {
     background-color: rgba(100, 120, 145, 0.8) !important;
     border-color: rgba(100, 120, 145, 0.8) !important;
 }
 
-div[data-testid="column"] button[kind="secondary"], div[data-testid="column"] [data-testid="baseButton-secondary"] {
+div[data-testid="stColumn"] button[kind="secondary"], div[data-testid="stColumn"] [data-testid="stBaseButton-secondary"] {
     background-color: rgba(150, 110, 120, 0.5) !important;
     border-color: rgba(150, 110, 120, 0.5) !important;
     color: white !important;
 }
-div[data-testid="column"] button[kind="secondary"]:hover, div[data-testid="column"] [data-testid="baseButton-secondary"]:hover {
+div[data-testid="stColumn"] button[kind="secondary"]:hover, div[data-testid="stColumn"] [data-testid="stBaseButton-secondary"]:hover {
     background-color: rgba(150, 110, 120, 0.8) !important;
     border-color: rgba(150, 110, 120, 0.8) !important;
 }

@@ -77,6 +77,13 @@ with st.sidebar:
     
     # Paint Mode Selector
     st.subheader("🖊️ Paint Mode")
+    
+    if st.button("📍 Ir al Día de Hoy"):
+        import datetime
+        st.session_state.selected_date = datetime.date.today().strftime("%Y-%m-%d")
+        st.session_state.paint_mode = "Inspect"
+        st.rerun()
+        
     paint_options = ["Inspect"] + [e['name'] for e in meta['events']]
     st.session_state.paint_mode = st.radio("Tool", paint_options, label_visibility="collapsed")
     

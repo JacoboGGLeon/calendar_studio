@@ -55,7 +55,7 @@ with st.sidebar:
     st.divider()
     
     # Recalculate Button
-    if st.button("🚀 Recalcular Reglas (Engine)", type="primary"):
+    if st.button("🚀 Recalcular Reglas (Engine)"):
         with st.spinner("Aplicando lógica matemática y Offsets..."):
             active_events = [e for e in meta['events'] if e.get('enabled', True)]
             new_df = engine.run_recalculation_pipeline(df.copy(), active_events)

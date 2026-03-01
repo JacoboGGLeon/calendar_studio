@@ -1,0 +1,285 @@
+import streamlit as st
+import pandas as pd
+import src.storage as storage
+import src.calendar_engine as engine
+from src.ui_components import load_css
+
+st.set_page_config(layout="wide", page_title="Calendar Studio 2026")
+load_css()
+
+# --- STATE MANAGEMENT ---
+if 'df' not in st.session_state:
+    st.session_state.df = storage.load_data()
+if 'meta' not in st.session_state:
+    st.session_state.meta = storage.load_meta()
+
+# Ensure we have data
+if st.session_state.df is None:
+    st.warning("No data found. Generating base calendar...")
+    year_min = st.session_state.meta.get('year_min', 2022)
+    year_max = st.session_state.meta.get('year_max', 2027)
+    st.session_state.df = engine.build_base_calendar(year_min, year_max)
+    storage.save_data_atomic(st.session_state.df)
+    st.rerun()
+
+df = st.session_state.df
+meta = st.session_state.meta
+
+# Initialize paint mode state
+if 'paint_mode' not in st.session_state:
+    st.session_state.paint_mode = "Inspect" 
+
+# --- SIDEBAR: GLOBAL CONTROLS ---
+with st.sidebar:
+    st.title("Calendar Studio")
+    
+    st.divider()
+    
+    # Recalculate Button
+    if st.button("🔄 Recalculate Rules", type="primary"):
+        with st.spinner("Crunching rules..."):
+            active_events = [e for e in meta['events'] if e.get('enabled', True)]
+            new_df = engine.run_recalculation_pipeline(df.copy(), active_events)
+            st.session_state.df = new_df
+            storage.save_data_atomic(new_df)
+        st.success("Calendar Updated!")
+        st.rerun()
+
+    st.divider()
+    
+    # Paint Mode Selector
+    st.subheader("🖊️ Paint Mode")
+    paint_options = ["Inspect"] + [e['name'] for e in meta['events']]
+    st.session_state.paint_mode = st.radio("Tool", paint_options, label_visibility="collapsed")
+    
+    st.caption("Select a tool above, then click on the calendar to apply.")
+
+    st.divider()
+    
+    # Event Manager (Global Config)
+    st.subheader("Event Types & Offsets")
+    
+    # FOCUS LOGIC: Determine which event is editable
+    active_paint_tool = st.session_state.get('paint_mode', 'Inspect')
+    
+    for i, evt in enumerate(meta['events']):
+        evt_name = evt['name']
+        
+        # Determine State
+        is_focused = (active_paint_tool == evt_name)
+        is_inspect = (active_paint_tool == "Inspect")
+        
+        # State Logic:
+        # If Inspect -> Locked (Collapsed)
+        # If Paint Tool -> Only that tool Editable (Expanded)
+        # Others -> Locked (Collapsed)
+        
+        should_expand = is_focused
+        is_disabled = not is_focused
+        
+        # Label with visual cue
+        c_label = f"{evt_name} {evt.get('symbol', '🔹')}"
+        if is_focused: c_label = "🟢 " + c_label
+        elif is_disabled: c_label = "🔒 " + c_label
+        
+        with st.expander(c_label, expanded=should_expand):
+            if is_disabled:
+                st.caption(f"Select '{evt_name}' in Paint Mode above to edit.")
+            else:
+                # EDITABLE CONTROLS
+                c1, c2 = st.columns(2)
+                with c1:
+                    new_color = st.color_picker("Color", evt['color'], key=f"c_{evt_name}")
+                    # PERSISTENCE FIX: Update meta if color changes
+                    if new_color != evt['color']:
+                        meta['events'][i]['color'] = new_color
+                        st.session_state.meta = meta
+                        storage.save_meta(meta)
+                        st.rerun()
+                        
+                with c2:
+                    current_sym = evt.get('symbol', '🔹')
+                    new_sym = st.text_input("Symbol", value=current_sym, key=f"sym_{evt_name}")
+                    if new_sym != current_sym:
+                        meta['events'][i]['symbol'] = new_sym
+                        st.session_state.meta = meta
+                        storage.save_meta(meta)
+                        st.rerun()
+
+                # Live Color Preview (To prove we know the color)
+                st.markdown(f"**Preview:** <span style='color:{new_color}; font-size:1.5em;'>{evt.get('symbol', '')}</span>", unsafe_allow_html=True)
+
+                current_n = evt.get('offset_days', 10)
+                new_n = st.number_input(f"Offset ±Days", min_value=0, max_value=30, value=current_n, key=f"global_offset_{evt_name}")
+                
+                if new_n != current_n:
+                    meta['events'][i]['offset_days'] = new_n
+                    st.session_state.meta = meta
+                    storage.save_meta(meta)
+
+# --- MAIN LAYOUT ---
+
+years = sorted(df['año'].unique())
+tabs = st.tabs([str(y) for y in years])
+
+for i, year in enumerate(years):
+    with tabs[i]:
+        col_cal, col_inspector = st.columns([3, 2])
+        
+        with col_cal:
+            st.subheader(f"Calendar {year}")
+            
+            df_year = df[df['año'] == year]
+            
+            for month in range(1, 13):
+                df_month = df_year[df_year['mes'] == month]
+                if df_month.empty:
+                    continue
+                    
+                msg_month = pd.to_datetime(f"{year}-{month}-01").strftime("%B")
+                
+                with st.expander(msg_month, expanded=(month==1)):
+                    cols = st.columns(7)
+                    days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                    for idx, d in enumerate(days):
+                        cols[idx].write(f"**{d}**")
+                        
+                    first_day_weekday = df_month.iloc[0]['weekday']
+                    current_col = 0
+                    row_cols = st.columns(7)
+                    
+                    for _ in range(first_day_weekday):
+                        row_cols[current_col].write("")
+                        current_col += 1
+                        
+                    for _, row in df_month.iterrows():
+                        if current_col > 6:
+                            current_col = 0
+                            row_cols = st.columns(7)
+                        
+                        day_num = row['dia']
+                        date_str = row['fecha'].strftime("%Y-%m-%d")
+                        
+                        # VISUALIZATION LABEL
+                        label = f"{day_num}"
+                        
+                        # Helper for Streamlit Colors
+                        def get_streamlit_color(hex_code):
+                            # Simple mapping to standard streamlit markdown colors (:red, :green, etc)
+                            # We measure distance to known palette
+                            import math
+                            
+                            if not hex_code.startswith('#'): return ''
+                            
+                            # Standard Streamlit Colors (Approximate Hex)
+                            palette = {
+                                'red': (255, 75, 75),
+                                'orange': (255, 164, 33),
+                                'green': (33, 195, 84),
+                                'blue': (28, 131, 225),
+                                'violet': (128, 61, 245),
+                                'gray': (128, 128, 128),
+                            }
+                            
+                            # Parse Input
+                            h = hex_code.lstrip('#')
+                            try:
+                                r, g, b = tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
+                            except:
+                                return ''
+                                
+                            # Find closest
+                            min_dist = float('inf')
+                            chosen_name = ''
+                            
+                            for name, (pr, pg, pb) in palette.items():
+                                dist = math.sqrt((r-pr)**2 + (g-pg)**2 + (b-pb)**2)
+                                if dist < min_dist:
+                                    min_dist = dist
+                                    chosen_name = name
+                            
+                            return chosen_name
+
+                        # Check Events (Accumulate Symbols)
+                        active_symbols_str = ""
+                        for evt in meta['events']:
+                            if row.get(evt['name'], 0) == 1:
+                                sym = evt.get('symbol', '🔹')
+                                hex_c = evt.get('color', '#888888')
+                                st_col = get_streamlit_color(hex_c)
+                                
+                                # Append styled symbol
+                                if st_col:
+                                    active_symbols_str += f" :{st_col}[{sym}]"
+                                else:
+                                    active_symbols_str += f" {sym}"
+                                
+                        if active_symbols_str:
+                            label += active_symbols_str
+                            
+                        # BUTTON INTERACTION
+                        if row_cols[current_col].button(label, key=f"btn_{date_str}"):
+                            active_tool = st.session_state.paint_mode
+                            
+                            if active_tool == "Inspect":
+                                st.session_state.selected_date = date_str
+                                st.rerun()
+                            else:
+                                idx = row.name 
+                                current_val = df.at[idx, active_tool]
+                                new_val = 0 if current_val == 1 else 1
+                                df.at[idx, active_tool] = new_val
+                                storage.save_data_atomic(df)
+                                st.rerun()
+                                
+                        current_col += 1
+
+        with col_inspector:
+            st.subheader("Day Inspector")
+            
+            if 'selected_date' in st.session_state:
+                sel_date = st.session_state.selected_date
+                
+                if str(year) in sel_date:
+                    st.write(f"**Selected:** {sel_date}")
+                    
+                    mask = df['fecha'] == sel_date
+                    if mask.any():
+                        row = df[mask].iloc[0]
+                        
+                        with st.expander("Default (Layer A)", expanded=True):
+                            grid_a = {
+                                "Metric": ["Año", "Mes", "Día", "Es Hábil"],
+                                "Value": [row['año'], row['mes'], row['dia'], bool(row.get('es_habil', False))]
+                            }
+                            st.table(pd.DataFrame(grid_a))
+
+                        with st.expander("Events (Layer B)", expanded=True):
+                            found_any = False
+                            for evt in meta['events']:
+                                is_active = row.get(evt['name'], 0) == 1
+                                if is_active:
+                                    found_any = True
+                                    color = evt['color']
+                                    sym = evt.get('symbol', '')
+                                    name = evt['name']
+                                    # HTML Injection for Color (Normalized Size)
+                                    st.markdown(f"<div style='color: {color}; font-weight: bold; margin-bottom: 4px;'>{sym} {name}</div>", unsafe_allow_html=True)
+                            
+                            if not found_any:
+                                st.caption("No events active")
+
+                        with st.expander("Derived State (Layer C)", expanded=True):
+                            offsets = []
+                            for c in df.columns:
+                                if ('antes' in c or 'después' in c) and row[c] == 1:
+                                    offsets.append(c)
+                            
+                            if offsets:
+                                st.write("**Active Offsets:**")
+                                for o in offsets:
+                                    st.markdown(f"- {o}")
+                            else:
+                                st.caption("No active offsets")
+                else:
+                    st.empty()

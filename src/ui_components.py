@@ -57,14 +57,34 @@ div[data-testid="stColumn"] button[kind="secondary"]:hover, div[data-testid="stC
 }
 
 /* User Requested: Orange Outline for Selected Day in Paint Mode */
-div[data-testid="stColumn"] button[title="Selected Day"] {
-    border: 2px solid rgba(255,153,0,0.4) !important;
+/* User Requested: White Outline for Selected Day in Paint Mode */
+div[data-testid="stElementContainer"]:has(.selected-marker),
+div.element-container:has(.selected-marker) {
+    display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-/* User Requested: Bright Orange Outline for Actual Today */
-div[data-testid="stColumn"] button[title="Today"] {
-    border: 2px solid #ff9900 !important;
-    box-shadow: 0 0 10px rgba(255,153,0,0.5) !important;
+div[data-testid="stElementContainer"]:has(.selected-marker) + div[data-testid="stElementContainer"] button,
+div.element-container:has(.selected-marker) + div.element-container button {
+    border: 3px solid rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.7) !important;
+}
+
+/* User Requested: Blue Outline for Actual Today */
+div[data-testid="stElementContainer"]:has(.today-marker),
+div.element-container:has(.today-marker) {
+    display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+div[data-testid="stElementContainer"]:has(.today-marker) + div[data-testid="stElementContainer"] button,
+div.element-container:has(.today-marker) + div.element-container button {
+    border: 3px solid #1c83e1 !important;
+    box-shadow: 0 0 10px rgba(28, 131, 225, 1) !important;
 }
 </style>
 """, unsafe_allow_html=True)

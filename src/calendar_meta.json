@@ -4,19 +4,19 @@
             "name": "día festivo",
             "color": "#E74C3C",
             "enabled": true,
-            "symbol": "_"
+            "symbol": "■"
         },
         {
             "name": "día de pago de impuestos",
             "color": "#F39C12",
             "enabled": true,
-            "symbol": "-"
+            "symbol": "■"
         },
         {
             "name": "día de cobro de quincena",
             "color": "#2ECC71",
             "enabled": true,
-            "symbol": "***"
+            "symbol": "■"
         }
     ],
     "year_min": 2022,

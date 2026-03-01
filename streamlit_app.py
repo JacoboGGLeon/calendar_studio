@@ -31,6 +31,11 @@ if 'paint_mode' not in st.session_state:
 
 # --- SIDEBAR: GLOBAL CONTROLS ---
 with st.sidebar:
+    st.markdown("""
+        <div style='text-align: center; margin-bottom: -15px; font-size: 2.75rem; font-weight: 800; color: #1c83e1; letter-spacing: 0.1em; font-family: "Arial Black", Arial, sans-serif;'>
+            B B V A
+        </div>
+    """, unsafe_allow_html=True)
     st.title("Calendar Studio")
     
     st.divider()
@@ -277,6 +282,12 @@ with tab_calendar:
                             help_txt = None
                             if is_today: help_txt = "Today"
                             elif is_selected: help_txt = "Selected Day"
+                                
+                            # INYECTAR MARCADOR OCULTO PARA EL DÍA DE HOY
+                            if is_today:
+                                row_cols[current_col].markdown('<div class="today-marker"></div>', unsafe_allow_html=True)
+                            if is_selected and not is_today:
+                                row_cols[current_col].markdown('<div class="selected-marker"></div>', unsafe_allow_html=True)
                                 
                             # BUTTON INTERACTION
                             if row_cols[current_col].button(label, key=f"btn_{date_str}", type=btn_type, help=help_txt):

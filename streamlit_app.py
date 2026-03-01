@@ -80,7 +80,9 @@ with st.sidebar:
     
     if st.button("📍 Ir al Día de Hoy"):
         import datetime
-        st.session_state.selected_date = datetime.date.today().strftime("%Y-%m-%d")
+        today = datetime.date.today()
+        st.session_state.selected_year_tab = today.year
+        st.session_state.selected_date = today.strftime("%Y-%m-%d")
         st.session_state.paint_mode = "Inspect"
         st.rerun()
         
@@ -158,10 +160,15 @@ tab_calendar, tab_data = st.tabs(["🗓️ Calendar Studio", "🗃️ Data Manag
 
 with tab_calendar:
     years = sorted(df['año'].unique())
-    tabs = st.tabs([str(y) for y in years])
+    if 'selected_year_tab' not in st.session_state:
+        import datetime
+        st.session_state.selected_year_tab = datetime.date.today().year
 
-    for i, year in enumerate(years):
-        with tabs[i]:
+    year = st.radio("Seleccionar Año Visualizado", years, horizontal=True, key="selected_year_tab", label_visibility="collapsed")
+    st.divider()
+
+    if True:
+        if True:
             col_cal, col_inspector = st.columns([3, 2])
             
             with col_cal:
@@ -176,7 +183,12 @@ with tab_calendar:
                         
                     msg_month = pd.to_datetime(f"{year}-{month}-01").strftime("%B")
                     
-                    with st.expander(msg_month, expanded=(month==1)):
+                    is_exp = (month == 1)
+                    sel_d = st.session_state.get('selected_date', '')
+                    if sel_d.startswith(f"{year}-{month:02d}"):
+                        is_exp = True
+                        
+                    with st.expander(msg_month, expanded=is_exp):
                         cols = st.columns(7)
                         days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
                         for idx, d in enumerate(days):
@@ -257,9 +269,12 @@ with tab_calendar:
                                 
                             # Determinar estilo del botón según si es hábil o no
                             btn_type = "primary" if row.get("es_habil", 0) == 1 else "secondary"
+                            
+                            is_selected = (date_str == st.session_state.get('selected_date', ''))
+                            help_txt = "Selected Day" if is_selected else None
                                 
                             # BUTTON INTERACTION
-                            if row_cols[current_col].button(label, key=f"btn_{date_str}", type=btn_type):
+                            if row_cols[current_col].button(label, key=f"btn_{date_str}", type=btn_type, help=help_txt):
                                 active_tool = st.session_state.paint_mode
                                 
                                 if active_tool == "Inspect":

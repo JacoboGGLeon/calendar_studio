@@ -55,5 +55,11 @@ div[data-testid="stColumn"] button[kind="secondary"]:hover, div[data-testid="stC
     background-color: rgba(150, 110, 120, 0.8) !important;
     border-color: rgba(150, 110, 120, 0.8) !important;
 }
+
+/* User Requested: Orange Outline for Selected Day */
+div[data-testid="stColumn"] button[title="Selected Day"] {
+    border: 2px solid #ff9900 !important;
+    box-shadow: 0 0 10px #ff9900 !important;
+}
 </style>
 """, unsafe_allow_html=True)

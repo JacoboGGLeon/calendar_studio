@@ -35,15 +35,43 @@ with st.sidebar:
     
     st.divider()
     
+    st.subheader("⚙️ Configuración")
+    col_min, col_max = st.columns(2)
+    with col_min:
+        new_year_min = st.number_input("Año Inicio", min_value=2020, max_value=2050, value=st.session_state.meta.get('year_min', 2022))
+    with col_max:
+        new_year_max = st.number_input("Año Fin", min_value=2020, max_value=2050, value=st.session_state.meta.get('year_max', 2027))
+        
+    if st.button("🔄 Generar Nuevo Base"):
+        st.session_state.meta['year_min'] = new_year_min
+        st.session_state.meta['year_max'] = new_year_max
+        storage.save_meta(st.session_state.meta)
+        with st.spinner("Construyendo años..."):
+            st.session_state.df = engine.build_base_calendar(new_year_min, new_year_max)
+            storage.save_data_atomic(st.session_state.df)
+        st.success("Rango de años actualizado.")
+        st.rerun()
+        
+    st.divider()
+    
     # Recalculate Button
-    if st.button("🔄 Recalculate Rules", type="primary"):
-        with st.spinner("Crunching rules..."):
+    if st.button("🚀 Recalcular Reglas (Engine)", type="primary"):
+        with st.spinner("Aplicando lógica matemática y Offsets..."):
             active_events = [e for e in meta['events'] if e.get('enabled', True)]
             new_df = engine.run_recalculation_pipeline(df.copy(), active_events)
             st.session_state.df = new_df
             storage.save_data_atomic(new_df)
-        st.success("Calendar Updated!")
+        st.success("Calendario Actualizado!")
         st.rerun()
+
+    if st.session_state.df is not None:
+        csv_data = st.session_state.df.to_csv(index=False).encode('utf-8')
+        st.download_button(
+            label="💾 Descargar Calendario (CSV)",
+            data=csv_data,
+            file_name=f"calendario_studio_export.csv",
+            mime="text/csv"
+        )
 
     st.divider()
     

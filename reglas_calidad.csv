@@ -1,0 +1,252 @@
+id_column,column,rule,code
+fecha,fecha,Clave Primaria: la fecha base,fechas_rango
+ano,año,El año geométrico,df['fecha'].dt.year
+mes,mes,El número de mes,df['fecha'].dt.month
+dia,dia,El número de día,df['fecha'].dt.day
+weekday,weekday,Día de la semana numérico,df['fecha'].dt.weekday
+dia_1,día 1,Bandera para el día 1 del mes,(df['fecha'].dt.day == 1).astype(int)
+dia_2,día 2,Bandera para el día 2 del mes,(df['fecha'].dt.day == 2).astype(int)
+dia_3,día 3,Bandera para el día 3 del mes,(df['fecha'].dt.day == 3).astype(int)
+dia_4,día 4,Bandera para el día 4 del mes,(df['fecha'].dt.day == 4).astype(int)
+dia_5,día 5,Bandera para el día 5 del mes,(df['fecha'].dt.day == 5).astype(int)
+dia_6,día 6,Bandera para el día 6 del mes,(df['fecha'].dt.day == 6).astype(int)
+dia_7,día 7,Bandera para el día 7 del mes,(df['fecha'].dt.day == 7).astype(int)
+dia_8,día 8,Bandera para el día 8 del mes,(df['fecha'].dt.day == 8).astype(int)
+dia_9,día 9,Bandera para el día 9 del mes,(df['fecha'].dt.day == 9).astype(int)
+dia_10,día 10,Bandera para el día 10 del mes,(df['fecha'].dt.day == 10).astype(int)
+dia_11,día 11,Bandera para el día 11 del mes,(df['fecha'].dt.day == 11).astype(int)
+dia_12,día 12,Bandera para el día 12 del mes,(df['fecha'].dt.day == 12).astype(int)
+dia_13,día 13,Bandera para el día 13 del mes,(df['fecha'].dt.day == 13).astype(int)
+dia_14,día 14,Bandera para el día 14 del mes,(df['fecha'].dt.day == 14).astype(int)
+dia_15,día 15,Bandera para el día 15 del mes,(df['fecha'].dt.day == 15).astype(int)
+dia_16,día 16,Bandera para el día 16 del mes,(df['fecha'].dt.day == 16).astype(int)
+dia_17,día 17,Bandera para el día 17 del mes,(df['fecha'].dt.day == 17).astype(int)
+dia_18,día 18,Bandera para el día 18 del mes,(df['fecha'].dt.day == 18).astype(int)
+dia_19,día 19,Bandera para el día 19 del mes,(df['fecha'].dt.day == 19).astype(int)
+dia_20,día 20,Bandera para el día 20 del mes,(df['fecha'].dt.day == 20).astype(int)
+dia_21,día 21,Bandera para el día 21 del mes,(df['fecha'].dt.day == 21).astype(int)
+dia_22,día 22,Bandera para el día 22 del mes,(df['fecha'].dt.day == 22).astype(int)
+dia_23,día 23,Bandera para el día 23 del mes,(df['fecha'].dt.day == 23).astype(int)
+dia_24,día 24,Bandera para el día 24 del mes,(df['fecha'].dt.day == 24).astype(int)
+dia_25,día 25,Bandera para el día 25 del mes,(df['fecha'].dt.day == 25).astype(int)
+dia_26,día 26,Bandera para el día 26 del mes,(df['fecha'].dt.day == 26).astype(int)
+dia_27,día 27,Bandera para el día 27 del mes,(df['fecha'].dt.day == 27).astype(int)
+dia_28,día 28,Bandera para el día 28 del mes,(df['fecha'].dt.day == 28).astype(int)
+dia_29,día 29,Bandera para el día 29 del mes,(df['fecha'].dt.day == 29).astype(int)
+dia_30,día 30,Bandera para el día 30 del mes,(df['fecha'].dt.day == 30).astype(int)
+dia_31,día 31,Bandera para el día 31 del mes,(df['fecha'].dt.day == 31).astype(int)
+dia_lunes,día lunes,Bandera para el día lunes,(df['fecha'].dt.weekday == 0).astype(int)
+dia_martes,día martes,Bandera para el día martes,(df['fecha'].dt.weekday == 1).astype(int)
+dia_miércoles,día miércoles,Bandera para el día miércoles,(df['fecha'].dt.weekday == 2).astype(int)
+dia_jueves,día jueves,Bandera para el día jueves,(df['fecha'].dt.weekday == 3).astype(int)
+dia_viernes,día viernes,Bandera para el día viernes,(df['fecha'].dt.weekday == 4).astype(int)
+fin_de_semana,fin de semana,Sábado o Domingo,"df['fecha'].dt.weekday.isin([5, 6]).astype(int)"
+dia_par_del_mes,día par del mes,Basado en el mes par,(df['fecha'].dt.month % 2 == 0).astype(int)
+dia_impar_del_mes,día impar del mes,Basado en el mes impar,(df['fecha'].dt.month % 2 != 0).astype(int)
+mes_enero,mes de enero,Bandera para el mes de enero,(df['fecha'].dt.month == 1).astype(int)
+mes_febrero,mes de febrero,Bandera para el mes de febrero,(df['fecha'].dt.month == 2).astype(int)
+mes_marzo,mes de marzo,Bandera para el mes de marzo,(df['fecha'].dt.month == 3).astype(int)
+mes_abril,mes de abril,Bandera para el mes de abril,(df['fecha'].dt.month == 4).astype(int)
+mes_mayo,mes de mayo,Bandera para el mes de mayo,(df['fecha'].dt.month == 5).astype(int)
+mes_junio,mes de junio,Bandera para el mes de junio,(df['fecha'].dt.month == 6).astype(int)
+mes_julio,mes de julio,Bandera para el mes de julio,(df['fecha'].dt.month == 7).astype(int)
+mes_agosto,mes de agosto,Bandera para el mes de agosto,(df['fecha'].dt.month == 8).astype(int)
+mes_septiembre,mes de septiembre,Bandera para el mes de septiembre,(df['fecha'].dt.month == 9).astype(int)
+mes_octubre,mes de octubre,Bandera para el mes de octubre,(df['fecha'].dt.month == 10).astype(int)
+mes_noviembre,mes de noviembre,Bandera para el mes de noviembre,(df['fecha'].dt.month == 11).astype(int)
+mes_diciembre,mes de diciembre,Bandera para el mes de diciembre,(df['fecha'].dt.month == 12).astype(int)
+bimestre_1_del_ano,bimestre 1 del año,Bimestre 1,(df['fecha'].dt.month.apply(lambda x: (x-1)//2 + 1) == 1).astype(int)
+bimestre_2_del_ano,bimestre 2 del año,Bimestre 2,(df['fecha'].dt.month.apply(lambda x: (x-1)//2 + 1) == 2).astype(int)
+bimestre_3_del_ano,bimestre 3 del año,Bimestre 3,(df['fecha'].dt.month.apply(lambda x: (x-1)//2 + 1) == 3).astype(int)
+bimestre_4_del_ano,bimestre 4 del año,Bimestre 4,(df['fecha'].dt.month.apply(lambda x: (x-1)//2 + 1) == 4).astype(int)
+bimestre_5_del_ano,bimestre 5 del año,Bimestre 5,(df['fecha'].dt.month.apply(lambda x: (x-1)//2 + 1) == 5).astype(int)
+bimestre_6_del_ano,bimestre 6 del año,Bimestre 6,(df['fecha'].dt.month.apply(lambda x: (x-1)//2 + 1) == 6).astype(int)
+trimestre_1_del_ano,trimestre 1 del año,Trimestre 1,(df['fecha'].dt.month.apply(lambda x: (x-1)//3 + 1) == 1).astype(int)
+trimestre_2_del_ano,trimestre 2 del año,Trimestre 2,(df['fecha'].dt.month.apply(lambda x: (x-1)//3 + 1) == 2).astype(int)
+trimestre_3_del_ano,trimestre 3 del año,Trimestre 3,(df['fecha'].dt.month.apply(lambda x: (x-1)//3 + 1) == 3).astype(int)
+trimestre_4_del_ano,trimestre 4 del año,Trimestre 4,(df['fecha'].dt.month.apply(lambda x: (x-1)//3 + 1) == 4).astype(int)
+cuatrimestre_1_del_ano,cuatrimestre 1 del año,Cuatrimestre 1,(df['fecha'].dt.month.apply(lambda x: (x-1)//4 + 1) == 1).astype(int)
+cuatrimestre_2_del_ano,cuatrimestre 2 del año,Cuatrimestre 2,(df['fecha'].dt.month.apply(lambda x: (x-1)//4 + 1) == 2).astype(int)
+cuatrimestre_3_del_ano,cuatrimestre 3 del año,Cuatrimestre 3,(df['fecha'].dt.month.apply(lambda x: (x-1)//4 + 1) == 3).astype(int)
+semestre_1_del_ano,semestre 1 del año,Semestre 1,(df['fecha'].dt.month.apply(lambda x: (x-1)//6 + 1) == 1).astype(int)
+semestre_2_del_ano,semestre 2 del año,Semestre 2,(df['fecha'].dt.month.apply(lambda x: (x-1)//6 + 1) == 2).astype(int)
+inicio_bimestre_1,inicio del bimestre contable 1,Mes inicio de bimestre 1,((df['fecha'].dt.month == 1) & (df['fecha'].dt.month.apply(lambda x: (x-1)//2 + 1) == 1)).astype(int)
+cierre_bimestre_1,cierre del bimestre 1,Mes cierre de bimestre 1,((df['fecha'].dt.month == 2) & (df['fecha'].dt.month.apply(lambda x: (x-1)//2 + 1) == 1)).astype(int)
+inicio_bimestre_2,inicio del bimestre contable 2,Mes inicio de bimestre 2,((df['fecha'].dt.month == 3) & (df['fecha'].dt.month.apply(lambda x: (x-1)//2 + 1) == 2)).astype(int)
+cierre_bimestre_2,cierre del bimestre 2,Mes cierre de bimestre 2,((df['fecha'].dt.month == 4) & (df['fecha'].dt.month.apply(lambda x: (x-1)//2 + 1) == 2)).astype(int)
+inicio_bimestre_3,inicio del bimestre contable 3,Mes inicio de bimestre 3,((df['fecha'].dt.month == 5) & (df['fecha'].dt.month.apply(lambda x: (x-1)//2 + 1) == 3)).astype(int)
+cierre_bimestre_3,cierre del bimestre 3,Mes cierre de bimestre 3,((df['fecha'].dt.month == 6) & (df['fecha'].dt.month.apply(lambda x: (x-1)//2 + 1) == 3)).astype(int)
+inicio_bimestre_4,inicio del bimestre 4,Mes inicio de bimestre 4,((df['fecha'].dt.month == 7) & (df['fecha'].dt.month.apply(lambda x: (x-1)//2 + 1) == 4)).astype(int)
+cierre_bimestre_4,cierre del bimestre 4,Mes cierre de bimestre 4,((df['fecha'].dt.month == 8) & (df['fecha'].dt.month.apply(lambda x: (x-1)//2 + 1) == 4)).astype(int)
+inicio_bimestre_5,inicio del bimestre 5,Mes inicio de bimestre 5,((df['fecha'].dt.month == 9) & (df['fecha'].dt.month.apply(lambda x: (x-1)//2 + 1) == 5)).astype(int)
+cierre_bimestre_5,cierre del bimestre 5,Mes cierre de bimestre 5,((df['fecha'].dt.month == 10) & (df['fecha'].dt.month.apply(lambda x: (x-1)//2 + 1) == 5)).astype(int)
+inicio_bimestre_6,inicio del bimestre 6,Mes inicio de bimestre 6,((df['fecha'].dt.month == 11) & (df['fecha'].dt.month.apply(lambda x: (x-1)//2 + 1) == 6)).astype(int)
+cierre_bimestre_6,cierre del bimestre 6,Mes cierre de bimestre 6,((df['fecha'].dt.month == 12) & (df['fecha'].dt.month.apply(lambda x: (x-1)//2 + 1) == 6)).astype(int)
+inicio_trimestre_1,inicio del trimestre 1,Mes inicio de trimestre 1,((df['fecha'].dt.month == 1) & (df['fecha'].dt.month.apply(lambda x: (x-1)//3 + 1) == 1)).astype(int)
+cierre_trimestre_1,cierre del trimestre 1,Mes cierre de trimestre 1,((df['fecha'].dt.month == 3) & (df['fecha'].dt.month.apply(lambda x: (x-1)//3 + 1) == 1)).astype(int)
+inicio_trimestre_2,inicio del trimestre 2,Mes inicio de trimestre 2,((df['fecha'].dt.month == 4) & (df['fecha'].dt.month.apply(lambda x: (x-1)//3 + 1) == 2)).astype(int)
+cierre_trimestre_2,cierre del trimestre 2,Mes cierre de trimestre 2,((df['fecha'].dt.month == 6) & (df['fecha'].dt.month.apply(lambda x: (x-1)//3 + 1) == 2)).astype(int)
+inicio_trimestre_3,inicio del trimestre 3,Mes inicio de trimestre 3,((df['fecha'].dt.month == 7) & (df['fecha'].dt.month.apply(lambda x: (x-1)//3 + 1) == 3)).astype(int)
+cierre_trimestre_3,cierre del trimestre 3,Mes cierre de trimestre 3,((df['fecha'].dt.month == 9) & (df['fecha'].dt.month.apply(lambda x: (x-1)//3 + 1) == 3)).astype(int)
+inicio_trimestre_4,inicio del trimestre 4,Mes inicio de trimestre 4,((df['fecha'].dt.month == 10) & (df['fecha'].dt.month.apply(lambda x: (x-1)//3 + 1) == 4)).astype(int)
+cierre_trimestre_4,cierre del trimestre 4,Mes cierre de trimestre 4,((df['fecha'].dt.month == 12) & (df['fecha'].dt.month.apply(lambda x: (x-1)//3 + 1) == 4)).astype(int)
+inicio_cuatrimestre_1,inicio del cuatrimestre 1,Mes inicio de cuatrimestre 1,((df['fecha'].dt.month == 1) & (df['fecha'].dt.month.apply(lambda x: (x-1)//4 + 1) == 1)).astype(int)
+cierre_cuatrimestre_1,cierre del cuatrimestre 1,Mes cierre de cuatrimestre 1,((df['fecha'].dt.month == 4) & (df['fecha'].dt.month.apply(lambda x: (x-1)//4 + 1) == 1)).astype(int)
+inicio_cuatrimestre_2,inicio del cuatrimestre 2,Mes inicio de cuatrimestre 2,((df['fecha'].dt.month == 5) & (df['fecha'].dt.month.apply(lambda x: (x-1)//4 + 1) == 2)).astype(int)
+cierre_cuatrimestre_2,cierre del cuatrimestre 2,Mes cierre de cuatrimestre 2,((df['fecha'].dt.month == 8) & (df['fecha'].dt.month.apply(lambda x: (x-1)//4 + 1) == 2)).astype(int)
+inicio_cuatrimestre_3,inicio del cuatrimestre 3,Mes inicio de cuatrimestre 3,((df['fecha'].dt.month == 9) & (df['fecha'].dt.month.apply(lambda x: (x-1)//4 + 1) == 3)).astype(int)
+cierre_cuatrimestre_3,cierre del cuatrimestre 3,Mes cierre de cuatrimestre 3,((df['fecha'].dt.month == 12) & (df['fecha'].dt.month.apply(lambda x: (x-1)//4 + 1) == 3)).astype(int)
+inicio_semestre_1,inicio del semestre 1,Mes inicio de semestre 1,((df['fecha'].dt.month == 1) & (df['fecha'].dt.month.apply(lambda x: (x-1)//6 + 1) == 1)).astype(int)
+cierre_semestre_1,cierre del semestre 1,Mes cierre de semestre 1,((df['fecha'].dt.month == 6) & (df['fecha'].dt.month.apply(lambda x: (x-1)//6 + 1) == 1)).astype(int)
+inicio_semestre_2,inicio del semestre 2,Mes inicio de semestre 2,((df['fecha'].dt.month == 7) & (df['fecha'].dt.month.apply(lambda x: (x-1)//6 + 1) == 2)).astype(int)
+cierre_semestre_2,cierre del semestre 2,Mes cierre de semestre 2,((df['fecha'].dt.month == 12) & (df['fecha'].dt.month.apply(lambda x: (x-1)//6 + 1) == 2)).astype(int)
+inicio_anual,inicio del anual,Mes de enero general,(df['fecha'].dt.month == 1).astype(int)
+cierre_anual,cierre del anual,Mes de diciembre general,(df['fecha'].dt.month == 12).astype(int)
+dia_festivo,día festivo,Dependencia usuario,"events_dict.get('día festivo', 0)"
+es_habil,es_habil,Día laborable sin festivos,((df['fin de semana'] == 0) & (df['día festivo'] == 0)).astype(int)
+dia_pago_impuestos,día de pago de impuestos,Día 17 o hábil siguiente,"forward_leap_to_habil(df, df['dia'] == 17)"
+dia_cobro_quincena,día de cobro de quincena,Día 15 y fin de mes o hábil previo,"backward_leap_to_habil(df, (df['dia'] == 15) | (df['fecha'] == df.groupby(['año', 'mes'])['fecha'].transform('max')))"
+primer_dia_habil_impar,primer día hábil de mes impar,Algoritmo min date impar,"compute_first_last_working(df, 'primer', 'impar')"
+ultimo_dia_habil_impar,último día hábil de mes impar,Algoritmo max date impar,"compute_first_last_working(df, 'ultimo', 'impar')"
+primer_dia_habil_par,primer día hábil de mes par,Algoritmo min date par,"compute_first_last_working(df, 'primer', 'par')"
+ultimo_dia_habil_par,último día hábil de mes par,Algoritmo max date par,"compute_first_last_working(df, 'ultimo', 'par')"
+1_dias_antes_dia_de_pago_de_impuestos,1 días antes de día de pago de impuestos,1 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de pago de impuestos', 1)"
+1_dias_despues_dia_de_pago_de_impuestos,1 días después de día de pago de impuestos,1 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de pago de impuestos', 1)"
+2_dias_antes_dia_de_pago_de_impuestos,2 días antes de día de pago de impuestos,2 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de pago de impuestos', 2)"
+2_dias_despues_dia_de_pago_de_impuestos,2 días después de día de pago de impuestos,2 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de pago de impuestos', 2)"
+3_dias_antes_dia_de_pago_de_impuestos,3 días antes de día de pago de impuestos,3 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de pago de impuestos', 3)"
+3_dias_despues_dia_de_pago_de_impuestos,3 días después de día de pago de impuestos,3 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de pago de impuestos', 3)"
+4_dias_antes_dia_de_pago_de_impuestos,4 días antes de día de pago de impuestos,4 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de pago de impuestos', 4)"
+4_dias_despues_dia_de_pago_de_impuestos,4 días después de día de pago de impuestos,4 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de pago de impuestos', 4)"
+5_dias_antes_dia_de_pago_de_impuestos,5 días antes de día de pago de impuestos,5 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de pago de impuestos', 5)"
+5_dias_despues_dia_de_pago_de_impuestos,5 días después de día de pago de impuestos,5 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de pago de impuestos', 5)"
+6_dias_antes_dia_de_pago_de_impuestos,6 días antes de día de pago de impuestos,6 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de pago de impuestos', 6)"
+6_dias_despues_dia_de_pago_de_impuestos,6 días después de día de pago de impuestos,6 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de pago de impuestos', 6)"
+7_dias_antes_dia_de_pago_de_impuestos,7 días antes de día de pago de impuestos,7 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de pago de impuestos', 7)"
+7_dias_despues_dia_de_pago_de_impuestos,7 días después de día de pago de impuestos,7 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de pago de impuestos', 7)"
+8_dias_antes_dia_de_pago_de_impuestos,8 días antes de día de pago de impuestos,8 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de pago de impuestos', 8)"
+8_dias_despues_dia_de_pago_de_impuestos,8 días después de día de pago de impuestos,8 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de pago de impuestos', 8)"
+9_dias_antes_dia_de_pago_de_impuestos,9 días antes de día de pago de impuestos,9 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de pago de impuestos', 9)"
+9_dias_despues_dia_de_pago_de_impuestos,9 días después de día de pago de impuestos,9 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de pago de impuestos', 9)"
+10_dias_antes_dia_de_pago_de_impuestos,10 días antes de día de pago de impuestos,10 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de pago de impuestos', 10)"
+10_dias_despues_dia_de_pago_de_impuestos,10 días después de día de pago de impuestos,10 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de pago de impuestos', 10)"
+1_dias_antes_dia_de_cobro_de_quincena,1 días antes de día de cobro de quincena,1 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de cobro de quincena', 1)"
+1_dias_despues_dia_de_cobro_de_quincena,1 días después de día de cobro de quincena,1 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de cobro de quincena', 1)"
+2_dias_antes_dia_de_cobro_de_quincena,2 días antes de día de cobro de quincena,2 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de cobro de quincena', 2)"
+2_dias_despues_dia_de_cobro_de_quincena,2 días después de día de cobro de quincena,2 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de cobro de quincena', 2)"
+3_dias_antes_dia_de_cobro_de_quincena,3 días antes de día de cobro de quincena,3 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de cobro de quincena', 3)"
+3_dias_despues_dia_de_cobro_de_quincena,3 días después de día de cobro de quincena,3 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de cobro de quincena', 3)"
+4_dias_antes_dia_de_cobro_de_quincena,4 días antes de día de cobro de quincena,4 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de cobro de quincena', 4)"
+4_dias_despues_dia_de_cobro_de_quincena,4 días después de día de cobro de quincena,4 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de cobro de quincena', 4)"
+5_dias_antes_dia_de_cobro_de_quincena,5 días antes de día de cobro de quincena,5 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de cobro de quincena', 5)"
+5_dias_despues_dia_de_cobro_de_quincena,5 días después de día de cobro de quincena,5 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de cobro de quincena', 5)"
+6_dias_antes_dia_de_cobro_de_quincena,6 días antes de día de cobro de quincena,6 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de cobro de quincena', 6)"
+6_dias_despues_dia_de_cobro_de_quincena,6 días después de día de cobro de quincena,6 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de cobro de quincena', 6)"
+7_dias_antes_dia_de_cobro_de_quincena,7 días antes de día de cobro de quincena,7 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de cobro de quincena', 7)"
+7_dias_despues_dia_de_cobro_de_quincena,7 días después de día de cobro de quincena,7 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de cobro de quincena', 7)"
+8_dias_antes_dia_de_cobro_de_quincena,8 días antes de día de cobro de quincena,8 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de cobro de quincena', 8)"
+8_dias_despues_dia_de_cobro_de_quincena,8 días después de día de cobro de quincena,8 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de cobro de quincena', 8)"
+9_dias_antes_dia_de_cobro_de_quincena,9 días antes de día de cobro de quincena,9 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de cobro de quincena', 9)"
+9_dias_despues_dia_de_cobro_de_quincena,9 días después de día de cobro de quincena,9 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de cobro de quincena', 9)"
+10_dias_antes_dia_de_cobro_de_quincena,10 días antes de día de cobro de quincena,10 dias atras en dias habiles,"compute_working_offset_backward(df, 'día de cobro de quincena', 10)"
+10_dias_despues_dia_de_cobro_de_quincena,10 días después de día de cobro de quincena,10 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día de cobro de quincena', 10)"
+1_dias_antes_dia_festivo,1 días antes de día festivo,1 dias atras en dias habiles,"compute_working_offset_backward(df, 'día festivo', 1)"
+1_dias_despues_dia_festivo,1 días después de día festivo,1 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día festivo', 1)"
+2_dias_antes_dia_festivo,2 días antes de día festivo,2 dias atras en dias habiles,"compute_working_offset_backward(df, 'día festivo', 2)"
+2_dias_despues_dia_festivo,2 días después de día festivo,2 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día festivo', 2)"
+3_dias_antes_dia_festivo,3 días antes de día festivo,3 dias atras en dias habiles,"compute_working_offset_backward(df, 'día festivo', 3)"
+3_dias_despues_dia_festivo,3 días después de día festivo,3 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día festivo', 3)"
+4_dias_antes_dia_festivo,4 días antes de día festivo,4 dias atras en dias habiles,"compute_working_offset_backward(df, 'día festivo', 4)"
+4_dias_despues_dia_festivo,4 días después de día festivo,4 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día festivo', 4)"
+5_dias_antes_dia_festivo,5 días antes de día festivo,5 dias atras en dias habiles,"compute_working_offset_backward(df, 'día festivo', 5)"
+5_dias_despues_dia_festivo,5 días después de día festivo,5 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día festivo', 5)"
+6_dias_antes_dia_festivo,6 días antes de día festivo,6 dias atras en dias habiles,"compute_working_offset_backward(df, 'día festivo', 6)"
+6_dias_despues_dia_festivo,6 días después de día festivo,6 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día festivo', 6)"
+7_dias_antes_dia_festivo,7 días antes de día festivo,7 dias atras en dias habiles,"compute_working_offset_backward(df, 'día festivo', 7)"
+7_dias_despues_dia_festivo,7 días después de día festivo,7 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día festivo', 7)"
+8_dias_antes_dia_festivo,8 días antes de día festivo,8 dias atras en dias habiles,"compute_working_offset_backward(df, 'día festivo', 8)"
+8_dias_despues_dia_festivo,8 días después de día festivo,8 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día festivo', 8)"
+9_dias_antes_dia_festivo,9 días antes de día festivo,9 dias atras en dias habiles,"compute_working_offset_backward(df, 'día festivo', 9)"
+9_dias_despues_dia_festivo,9 días después de día festivo,9 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día festivo', 9)"
+10_dias_antes_dia_festivo,10 días antes de día festivo,10 dias atras en dias habiles,"compute_working_offset_backward(df, 'día festivo', 10)"
+10_dias_despues_dia_festivo,10 días después de día festivo,10 dias adelante en dias habiles,"compute_working_offset_forward(df, 'día festivo', 10)"
+1_dias_antes_primer_dia_hábil_de_mes_impar,1 días antes de primer día hábil de mes impar,1 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes impar', 1)"
+1_dias_despues_primer_dia_hábil_de_mes_impar,1 días después de primer día hábil de mes impar,1 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes impar', 1)"
+2_dias_antes_primer_dia_hábil_de_mes_impar,2 días antes de primer día hábil de mes impar,2 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes impar', 2)"
+2_dias_despues_primer_dia_hábil_de_mes_impar,2 días después de primer día hábil de mes impar,2 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes impar', 2)"
+3_dias_antes_primer_dia_hábil_de_mes_impar,3 días antes de primer día hábil de mes impar,3 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes impar', 3)"
+3_dias_despues_primer_dia_hábil_de_mes_impar,3 días después de primer día hábil de mes impar,3 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes impar', 3)"
+4_dias_antes_primer_dia_hábil_de_mes_impar,4 días antes de primer día hábil de mes impar,4 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes impar', 4)"
+4_dias_despues_primer_dia_hábil_de_mes_impar,4 días después de primer día hábil de mes impar,4 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes impar', 4)"
+5_dias_antes_primer_dia_hábil_de_mes_impar,5 días antes de primer día hábil de mes impar,5 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes impar', 5)"
+5_dias_despues_primer_dia_hábil_de_mes_impar,5 días después de primer día hábil de mes impar,5 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes impar', 5)"
+6_dias_antes_primer_dia_hábil_de_mes_impar,6 días antes de primer día hábil de mes impar,6 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes impar', 6)"
+6_dias_despues_primer_dia_hábil_de_mes_impar,6 días después de primer día hábil de mes impar,6 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes impar', 6)"
+7_dias_antes_primer_dia_hábil_de_mes_impar,7 días antes de primer día hábil de mes impar,7 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes impar', 7)"
+7_dias_despues_primer_dia_hábil_de_mes_impar,7 días después de primer día hábil de mes impar,7 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes impar', 7)"
+8_dias_antes_primer_dia_hábil_de_mes_impar,8 días antes de primer día hábil de mes impar,8 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes impar', 8)"
+8_dias_despues_primer_dia_hábil_de_mes_impar,8 días después de primer día hábil de mes impar,8 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes impar', 8)"
+9_dias_antes_primer_dia_hábil_de_mes_impar,9 días antes de primer día hábil de mes impar,9 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes impar', 9)"
+9_dias_despues_primer_dia_hábil_de_mes_impar,9 días después de primer día hábil de mes impar,9 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes impar', 9)"
+10_dias_antes_primer_dia_hábil_de_mes_impar,10 días antes de primer día hábil de mes impar,10 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes impar', 10)"
+10_dias_despues_primer_dia_hábil_de_mes_impar,10 días después de primer día hábil de mes impar,10 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes impar', 10)"
+1_dias_antes_último_dia_hábil_de_mes_impar,1 días antes de último día hábil de mes impar,1 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes impar', 1)"
+1_dias_despues_último_dia_hábil_de_mes_impar,1 días después de último día hábil de mes impar,1 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes impar', 1)"
+2_dias_antes_último_dia_hábil_de_mes_impar,2 días antes de último día hábil de mes impar,2 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes impar', 2)"
+2_dias_despues_último_dia_hábil_de_mes_impar,2 días después de último día hábil de mes impar,2 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes impar', 2)"
+3_dias_antes_último_dia_hábil_de_mes_impar,3 días antes de último día hábil de mes impar,3 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes impar', 3)"
+3_dias_despues_último_dia_hábil_de_mes_impar,3 días después de último día hábil de mes impar,3 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes impar', 3)"
+4_dias_antes_último_dia_hábil_de_mes_impar,4 días antes de último día hábil de mes impar,4 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes impar', 4)"
+4_dias_despues_último_dia_hábil_de_mes_impar,4 días después de último día hábil de mes impar,4 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes impar', 4)"
+5_dias_antes_último_dia_hábil_de_mes_impar,5 días antes de último día hábil de mes impar,5 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes impar', 5)"
+5_dias_despues_último_dia_hábil_de_mes_impar,5 días después de último día hábil de mes impar,5 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes impar', 5)"
+6_dias_antes_último_dia_hábil_de_mes_impar,6 días antes de último día hábil de mes impar,6 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes impar', 6)"
+6_dias_despues_último_dia_hábil_de_mes_impar,6 días después de último día hábil de mes impar,6 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes impar', 6)"
+7_dias_antes_último_dia_hábil_de_mes_impar,7 días antes de último día hábil de mes impar,7 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes impar', 7)"
+7_dias_despues_último_dia_hábil_de_mes_impar,7 días después de último día hábil de mes impar,7 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes impar', 7)"
+8_dias_antes_último_dia_hábil_de_mes_impar,8 días antes de último día hábil de mes impar,8 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes impar', 8)"
+8_dias_despues_último_dia_hábil_de_mes_impar,8 días después de último día hábil de mes impar,8 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes impar', 8)"
+9_dias_antes_último_dia_hábil_de_mes_impar,9 días antes de último día hábil de mes impar,9 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes impar', 9)"
+9_dias_despues_último_dia_hábil_de_mes_impar,9 días después de último día hábil de mes impar,9 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes impar', 9)"
+10_dias_antes_último_dia_hábil_de_mes_impar,10 días antes de último día hábil de mes impar,10 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes impar', 10)"
+10_dias_despues_último_dia_hábil_de_mes_impar,10 días después de último día hábil de mes impar,10 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes impar', 10)"
+1_dias_antes_primer_dia_hábil_de_mes_par,1 días antes de primer día hábil de mes par,1 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes par', 1)"
+1_dias_despues_primer_dia_hábil_de_mes_par,1 días después de primer día hábil de mes par,1 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes par', 1)"
+2_dias_antes_primer_dia_hábil_de_mes_par,2 días antes de primer día hábil de mes par,2 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes par', 2)"
+2_dias_despues_primer_dia_hábil_de_mes_par,2 días después de primer día hábil de mes par,2 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes par', 2)"
+3_dias_antes_primer_dia_hábil_de_mes_par,3 días antes de primer día hábil de mes par,3 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes par', 3)"
+3_dias_despues_primer_dia_hábil_de_mes_par,3 días después de primer día hábil de mes par,3 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes par', 3)"
+4_dias_antes_primer_dia_hábil_de_mes_par,4 días antes de primer día hábil de mes par,4 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes par', 4)"
+4_dias_despues_primer_dia_hábil_de_mes_par,4 días después de primer día hábil de mes par,4 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes par', 4)"
+5_dias_antes_primer_dia_hábil_de_mes_par,5 días antes de primer día hábil de mes par,5 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes par', 5)"
+5_dias_despues_primer_dia_hábil_de_mes_par,5 días después de primer día hábil de mes par,5 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes par', 5)"
+6_dias_antes_primer_dia_hábil_de_mes_par,6 días antes de primer día hábil de mes par,6 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes par', 6)"
+6_dias_despues_primer_dia_hábil_de_mes_par,6 días después de primer día hábil de mes par,6 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes par', 6)"
+7_dias_antes_primer_dia_hábil_de_mes_par,7 días antes de primer día hábil de mes par,7 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes par', 7)"
+7_dias_despues_primer_dia_hábil_de_mes_par,7 días después de primer día hábil de mes par,7 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes par', 7)"
+8_dias_antes_primer_dia_hábil_de_mes_par,8 días antes de primer día hábil de mes par,8 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes par', 8)"
+8_dias_despues_primer_dia_hábil_de_mes_par,8 días después de primer día hábil de mes par,8 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes par', 8)"
+9_dias_antes_primer_dia_hábil_de_mes_par,9 días antes de primer día hábil de mes par,9 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes par', 9)"
+9_dias_despues_primer_dia_hábil_de_mes_par,9 días después de primer día hábil de mes par,9 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes par', 9)"
+10_dias_antes_primer_dia_hábil_de_mes_par,10 días antes de primer día hábil de mes par,10 dias atras en dias habiles,"compute_working_offset_backward(df, 'primer día hábil de mes par', 10)"
+10_dias_despues_primer_dia_hábil_de_mes_par,10 días después de primer día hábil de mes par,10 dias adelante en dias habiles,"compute_working_offset_forward(df, 'primer día hábil de mes par', 10)"
+1_dias_antes_último_dia_hábil_de_mes_par,1 días antes de último día hábil de mes par,1 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes par', 1)"
+1_dias_despues_último_dia_hábil_de_mes_par,1 días después de último día hábil de mes par,1 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes par', 1)"
+2_dias_antes_último_dia_hábil_de_mes_par,2 días antes de último día hábil de mes par,2 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes par', 2)"
+2_dias_despues_último_dia_hábil_de_mes_par,2 días después de último día hábil de mes par,2 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes par', 2)"
+3_dias_antes_último_dia_hábil_de_mes_par,3 días antes de último día hábil de mes par,3 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes par', 3)"
+3_dias_despues_último_dia_hábil_de_mes_par,3 días después de último día hábil de mes par,3 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes par', 3)"
+4_dias_antes_último_dia_hábil_de_mes_par,4 días antes de último día hábil de mes par,4 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes par', 4)"
+4_dias_despues_último_dia_hábil_de_mes_par,4 días después de último día hábil de mes par,4 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes par', 4)"
+5_dias_antes_último_dia_hábil_de_mes_par,5 días antes de último día hábil de mes par,5 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes par', 5)"
+5_dias_despues_último_dia_hábil_de_mes_par,5 días después de último día hábil de mes par,5 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes par', 5)"
+6_dias_antes_último_dia_hábil_de_mes_par,6 días antes de último día hábil de mes par,6 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes par', 6)"
+6_dias_despues_último_dia_hábil_de_mes_par,6 días después de último día hábil de mes par,6 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes par', 6)"
+7_dias_antes_último_dia_hábil_de_mes_par,7 días antes de último día hábil de mes par,7 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes par', 7)"
+7_dias_despues_último_dia_hábil_de_mes_par,7 días después de último día hábil de mes par,7 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes par', 7)"
+8_dias_antes_último_dia_hábil_de_mes_par,8 días antes de último día hábil de mes par,8 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes par', 8)"
+8_dias_despues_último_dia_hábil_de_mes_par,8 días después de último día hábil de mes par,8 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes par', 8)"
+9_dias_antes_último_dia_hábil_de_mes_par,9 días antes de último día hábil de mes par,9 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes par', 9)"
+9_dias_despues_último_dia_hábil_de_mes_par,9 días después de último día hábil de mes par,9 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes par', 9)"
+10_dias_antes_último_dia_hábil_de_mes_par,10 días antes de último día hábil de mes par,10 dias atras en dias habiles,"compute_working_offset_backward(df, 'último día hábil de mes par', 10)"
+10_dias_despues_último_dia_hábil_de_mes_par,10 días después de último día hábil de mes par,10 dias adelante en dias habiles,"compute_working_offset_forward(df, 'último día hábil de mes par', 10)"

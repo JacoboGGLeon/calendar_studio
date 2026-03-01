@@ -1,0 +1,23 @@
+# Entornos virtuales
+venv/
+env/
+.env/
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+
+# IDEs y Editores
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Archivos de datos autogenerados o locales
+*.csv
+!test_engine.py
+!reglas_calidad.csv
+
+# Streamlit caches
+.streamlit/

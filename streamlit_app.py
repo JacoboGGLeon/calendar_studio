@@ -270,8 +270,13 @@ with tab_calendar:
                             # Determinar estilo del botón según si es hábil o no
                             btn_type = "primary" if row.get("es_habil", 0) == 1 else "secondary"
                             
+                            import datetime
+                            is_today = (date_str == datetime.date.today().strftime("%Y-%m-%d"))
                             is_selected = (date_str == st.session_state.get('selected_date', ''))
-                            help_txt = "Selected Day" if is_selected else None
+                            
+                            help_txt = None
+                            if is_today: help_txt = "Today"
+                            elif is_selected: help_txt = "Selected Day"
                                 
                             # BUTTON INTERACTION
                             if row_cols[current_col].button(label, key=f"btn_{date_str}", type=btn_type, help=help_txt):

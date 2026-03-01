@@ -56,10 +56,15 @@ div[data-testid="stColumn"] button[kind="secondary"]:hover, div[data-testid="stC
     border-color: rgba(150, 110, 120, 0.8) !important;
 }
 
-/* User Requested: Orange Outline for Selected Day */
+/* User Requested: Orange Outline for Selected Day in Paint Mode */
 div[data-testid="stColumn"] button[title="Selected Day"] {
+    border: 2px solid rgba(255,153,0,0.4) !important;
+}
+
+/* User Requested: Bright Orange Outline for Actual Today */
+div[data-testid="stColumn"] button[title="Today"] {
     border: 2px solid #ff9900 !important;
-    box-shadow: 0 0 10px #ff9900 !important;
+    box-shadow: 0 0 10px rgba(255,153,0,0.5) !important;
 }
 </style>
 """, unsafe_allow_html=True)

@@ -177,8 +177,13 @@ def run_recalculation_pipeline(df, event_configs):
     4. offsets
     """
     # 1. ES_HABIL
+    import os
     if 'día festivo' not in df.columns:
-        df['día festivo'] = 0
+        if os.path.exists('festivos.csv'):
+            fest_df = pd.read_csv('festivos.csv')
+            df['día festivo'] = df['fecha'].dt.strftime('%Y-%m-%d').isin(fest_df['fecha']).astype(int)
+        else:
+            df['día festivo'] = 0
         
     df['es_habil'] = ((df['fin de semana'] == 0) & (df['día festivo'] == 0)).astype(int)
 

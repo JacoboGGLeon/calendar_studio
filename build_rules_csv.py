@@ -70,12 +70,13 @@ def generate_rules_csv():
     add_rule('cierre_anual', 'cierre del anual', 'Mes de diciembre general', "(df['fecha'].dt.month == 12).astype(int)")
 
     # 7. Layer B - Logic Rules
-    add_rule('dia_festivo', 'día festivo', 'Dependencia usuario', "events_dict.get('día festivo', 0)")
+    # Ahora leen dinámicamente desde sus archivos semillas extraídos
+    add_rule('dia_festivo', 'día festivo', 'Semilla estática cargada desde festivos.csv', "df['fecha'].dt.strftime('%Y-%m-%d').isin(pd.read_csv('festivos.csv')['fecha']).astype(int)")
     add_rule('es_habil', 'es_habil', 'Día laborable sin festivos', "((df['fin de semana'] == 0) & (df['día festivo'] == 0)).astype(int)")
     
     # 8. Events
-    add_rule('dia_pago_impuestos', 'día de pago de impuestos', 'Día 17 o hábil siguiente', "forward_leap_to_habil(df, df['dia'] == 17)")
-    add_rule('dia_cobro_quincena', 'día de cobro de quincena', 'Día 15 y fin de mes o hábil previo', "backward_leap_to_habil(df, (df['dia'] == 15) | (df['fecha'] == df.groupby(['año', 'mes'])['fecha'].transform('max')))")
+    add_rule('dia_pago_impuestos', 'día de pago de impuestos', 'Semilla estática cargada desde impuestos.csv', "df['fecha'].dt.strftime('%Y-%m-%d').isin(pd.read_csv('impuestos.csv')['fecha']).astype(int)")
+    add_rule('dia_cobro_quincena', 'día de cobro de quincena', 'Semilla estática cargada desde quincenas.csv', "df['fecha'].dt.strftime('%Y-%m-%d').isin(pd.read_csv('quincenas.csv')['fecha']).astype(int)")
 
     add_rule('primer_dia_habil_impar', 'primer día hábil de mes impar', 'Algoritmo min date impar', "compute_first_last_working(df, 'primer', 'impar')")
     add_rule('ultimo_dia_habil_impar', 'último día hábil de mes impar', 'Algoritmo max date impar', "compute_first_last_working(df, 'ultimo', 'impar')")

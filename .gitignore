@@ -18,6 +18,9 @@ __pycache__/
 *.csv
 !test_engine.py
 !reglas_calidad.csv
+!festivos.csv
+!quincenas.csv
+!impuestos.csv
 
 # Streamlit caches
 .streamlit/

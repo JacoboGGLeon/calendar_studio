@@ -102,10 +102,10 @@ inicio_semestre_2,inicio del semestre 2,Mes inicio de semestre 2,((df['fecha'].d
 cierre_semestre_2,cierre del semestre 2,Mes cierre de semestre 2,((df['fecha'].dt.month == 12) & (df['fecha'].dt.month.apply(lambda x: (x-1)//6 + 1) == 2)).astype(int)
 inicio_anual,inicio del anual,Mes de enero general,(df['fecha'].dt.month == 1).astype(int)
 cierre_anual,cierre del anual,Mes de diciembre general,(df['fecha'].dt.month == 12).astype(int)
-dia_festivo,día festivo,Dependencia usuario,"events_dict.get('día festivo', 0)"
+dia_festivo,día festivo,Semilla estática cargada desde festivos.csv,df['fecha'].dt.strftime('%Y-%m-%d').isin(pd.read_csv('festivos.csv')['fecha']).astype(int)
 es_habil,es_habil,Día laborable sin festivos,((df['fin de semana'] == 0) & (df['día festivo'] == 0)).astype(int)
-dia_pago_impuestos,día de pago de impuestos,Día 17 o hábil siguiente,"forward_leap_to_habil(df, df['dia'] == 17)"
-dia_cobro_quincena,día de cobro de quincena,Día 15 y fin de mes o hábil previo,"backward_leap_to_habil(df, (df['dia'] == 15) | (df['fecha'] == df.groupby(['año', 'mes'])['fecha'].transform('max')))"
+dia_pago_impuestos,día de pago de impuestos,Semilla estática cargada desde impuestos.csv,df['fecha'].dt.strftime('%Y-%m-%d').isin(pd.read_csv('impuestos.csv')['fecha']).astype(int)
+dia_cobro_quincena,día de cobro de quincena,Semilla estática cargada desde quincenas.csv,df['fecha'].dt.strftime('%Y-%m-%d').isin(pd.read_csv('quincenas.csv')['fecha']).astype(int)
 primer_dia_habil_impar,primer día hábil de mes impar,Algoritmo min date impar,"compute_first_last_working(df, 'primer', 'impar')"
 ultimo_dia_habil_impar,último día hábil de mes impar,Algoritmo max date impar,"compute_first_last_working(df, 'ultimo', 'impar')"
 primer_dia_habil_par,primer día hábil de mes par,Algoritmo min date par,"compute_first_last_working(df, 'primer', 'par')"

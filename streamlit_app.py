@@ -275,37 +275,63 @@ for i, year in enumerate(years):
                     if mask.any():
                         row = df[mask].iloc[0]
                         
-                        with st.expander("Default (Layer A)", expanded=True):
-                            grid_a = {
-                                "Metric": ["Año", "Mes", "Día", "Es Hábil"],
-                                "Value": [row['año'], row['mes'], row['dia'], bool(row.get('es_habil', False))]
-                            }
-                            st.table(pd.DataFrame(grid_a))
+                        # Define Column Groups
+                        base_primary_cols = ['año', 'mes', 'dia', 'weekday', 'es_habil', 'fin de semana']
+                        events_cols = [e['name'] for e in meta['events']] + [
+                            'primer día hábil de mes impar', 'último día hábil de mes impar', 
+                            'primer día hábil de mes par', 'último día hábil de mes par'
+                        ]
+                        offset_cols = [c for c in df.columns if 'antes' in c or 'después' in c]
+                        
+                        base_secondary_cols = [c for c in df.columns if c not in base_primary_cols + events_cols + offset_cols + ['fecha']]
 
-                        with st.expander("Events (Layer B)", expanded=True):
+                        # Block 1: base-primary
+                        with st.expander("base-primary", expanded=True):
+                            grid_p = {"Metric": [], "Value": []}
+                            for c in base_primary_cols:
+                                if c in row:
+                                    grid_p["Metric"].append(c)
+                                    val = row[c]
+                                    # Formato booleano para los flags (0/1)
+                                    if c in ['es_habil', 'fin de semana']:
+                                        val = bool(val)
+                                    grid_p["Value"].append(str(val))
+                            st.table(pd.DataFrame(grid_p))
+
+                        # Block 2: base-secondary
+                        with st.expander("base-secondary", expanded=True):
+                            active_sec = [c for c in base_secondary_cols if c in row and row[c] == 1]
+                            if active_sec:
+                                st.write("**Active:**")
+                                for sec in active_sec:
+                                    st.markdown(f"- {sec}")
+                            else:
+                                st.caption("No active secondary elements")
+
+                        # Block 3: events
+                        with st.expander("events", expanded=True):
                             found_any = False
-                            for evt in meta['events']:
-                                is_active = row.get(evt['name'], 0) == 1
-                                if is_active:
+                            for c in events_cols:
+                                if c in row and row[c] == 1:
                                     found_any = True
-                                    color = evt['color']
-                                    sym = evt.get('symbol', '')
-                                    name = evt['name']
-                                    # HTML Injection for Color (Normalized Size)
-                                    st.markdown(f"<div style='color: {color}; font-weight: bold; margin-bottom: 4px;'>{sym} {name}</div>", unsafe_allow_html=True)
-                            
+                                    # Si es de meta, pintar su color y símbolo.
+                                    meta_evt = next((e for e in meta['events'] if e['name'] == c), None)
+                                    if meta_evt:
+                                        color = meta_evt['color']
+                                        sym = meta_evt.get('symbol', '')
+                                        st.markdown(f"<div style='color: {color}; font-weight: bold; margin-bottom: 4px;'>{sym} {c}</div>", unsafe_allow_html=True)
+                                    else:
+                                        st.markdown(f"<div style='font-weight: bold; margin-bottom: 4px;'>⚙️ {c}</div>", unsafe_allow_html=True)
+                                        
                             if not found_any:
                                 st.caption("No events active")
 
-                        with st.expander("Derived State (Layer C)", expanded=True):
-                            offsets = []
-                            for c in df.columns:
-                                if ('antes' in c or 'después' in c) and row[c] == 1:
-                                    offsets.append(c)
-                            
-                            if offsets:
+                        # Block 4: events-offset
+                        with st.expander("events-offset", expanded=True):
+                            active_off = [c for c in offset_cols if c in row and row[c] == 1]
+                            if active_off:
                                 st.write("**Active Offsets:**")
-                                for o in offsets:
+                                for o in active_off:
                                     st.markdown(f"- {o}")
                             else:
                                 st.caption("No active offsets")

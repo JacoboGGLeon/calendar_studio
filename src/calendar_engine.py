@@ -141,6 +141,7 @@ def build_base_calendar(year_min, year_max):
         'semestre': {1: (1, 6), 2: (7, 12)}
     }
     
+    nuevas_columnas_periodo = {}
     for period_str, num_col in [('bimestre', 'bimestre_num'), ('trimestre', 'trimestre_num'), 
                                 ('cuatrimestre', 'cuatrimestre_num'), ('semestre', 'semestre_num')]:
         for i in df[num_col].dropna().unique():
@@ -153,12 +154,14 @@ def build_base_calendar(year_min, year_max):
             
             i_month, c_month = period_months[period_str][int(i)]
             
-            df[inicio_col] = ((df['fecha'].dt.month == i_month) & (df[num_col] == i)).astype(int)
-            df[cierre_col] = ((df['fecha'].dt.month == c_month) & (df[num_col] == i)).astype(int)
+            nuevas_columnas_periodo[inicio_col] = ((df['fecha'].dt.month == i_month) & (df[num_col] == i)).astype(int)
+            nuevas_columnas_periodo[cierre_col] = ((df['fecha'].dt.month == c_month) & (df[num_col] == i)).astype(int)
 
     # Anual
-    df['inicio del anual'] = (df['fecha'].dt.month == 1).astype(int)
-    df['cierre del anual'] = (df['fecha'].dt.month == 12).astype(int)
+    nuevas_columnas_periodo['inicio del anual'] = (df['fecha'].dt.month == 1).astype(int)
+    nuevas_columnas_periodo['cierre del anual'] = (df['fecha'].dt.month == 12).astype(int)
+
+    df = pd.concat([df, pd.DataFrame(nuevas_columnas_periodo)], axis=1)
 
     # Cleanup iterators
     df = df.drop(columns=['bimestre_num', 'trimestre_num', 'cuatrimestre_num', 'semestre_num'])
@@ -226,11 +229,14 @@ def run_recalculation_pipeline(df, event_configs):
     N = 10
     
     # Initialize all columns to 0 first to respect EXACT csv structure
+    nuevas_columnas_offset = {}
     for event_col in eventos_con_offset:
         for k in reversed(range(1, N+1)):
-            df[f'{k} días antes de {event_col}'] = 0
+            nuevas_columnas_offset[f'{k} días antes de {event_col}'] = 0
         for k in range(1, N+1):
-            df[f'{k} días después de {event_col}'] = 0
+            nuevas_columnas_offset[f'{k} días después de {event_col}'] = 0
+            
+    df = pd.concat([df, pd.DataFrame(nuevas_columnas_offset, index=df.index)], axis=1)
     
     # Calculate values
     for event_col in eventos_con_offset:

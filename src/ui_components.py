@@ -34,5 +34,26 @@ div.css-card {
   padding: 16px;
   margin-bottom: 10px;
 }
+
+/* User Requested Colors for Calendar Grid */
+button[kind="primary"], [data-testid="baseButton-primary"] {
+    background-color: #555555 !important;
+    border-color: #555555 !important;
+    color: white !important;
+}
+button[kind="primary"]:hover, [data-testid="baseButton-primary"]:hover {
+    background-color: #666666 !important;
+    border-color: #666666 !important;
+}
+
+button[kind="secondary"], [data-testid="baseButton-secondary"] {
+    background-color: #ffffff !important;
+    border-color: #ffffff !important;
+    color: #0b1020 !important;
+}
+button[kind="secondary"]:hover, [data-testid="baseButton-secondary"]:hover {
+    background-color: #e6e6e6 !important;
+    border-color: #e6e6e6 !important;
+}
 </style>
 """, unsafe_allow_html=True)

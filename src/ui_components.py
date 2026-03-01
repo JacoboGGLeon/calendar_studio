@@ -35,25 +35,25 @@ div.css-card {
   margin-bottom: 10px;
 }
 
-/* User Requested Colors for Calendar Grid */
-button[kind="primary"], [data-testid="baseButton-primary"] {
-    background-color: #555555 !important;
-    border-color: #555555 !important;
+/* User Requested Colors for Calendar Grid (Only inside columns) */
+div[data-testid="column"] button[kind="primary"], div[data-testid="column"] [data-testid="baseButton-primary"] {
+    background-color: rgba(100, 120, 145, 0.5) !important;
+    border-color: rgba(100, 120, 145, 0.5) !important;
     color: white !important;
 }
-button[kind="primary"]:hover, [data-testid="baseButton-primary"]:hover {
-    background-color: #666666 !important;
-    border-color: #666666 !important;
+div[data-testid="column"] button[kind="primary"]:hover, div[data-testid="column"] [data-testid="baseButton-primary"]:hover {
+    background-color: rgba(100, 120, 145, 0.8) !important;
+    border-color: rgba(100, 120, 145, 0.8) !important;
 }
 
-button[kind="secondary"], [data-testid="baseButton-secondary"] {
-    background-color: #ffffff !important;
-    border-color: #ffffff !important;
-    color: #0b1020 !important;
+div[data-testid="column"] button[kind="secondary"], div[data-testid="column"] [data-testid="baseButton-secondary"] {
+    background-color: rgba(150, 110, 120, 0.5) !important;
+    border-color: rgba(150, 110, 120, 0.5) !important;
+    color: white !important;
 }
-button[kind="secondary"]:hover, [data-testid="baseButton-secondary"]:hover {
-    background-color: #e6e6e6 !important;
-    border-color: #e6e6e6 !important;
+div[data-testid="column"] button[kind="secondary"]:hover, div[data-testid="column"] [data-testid="baseButton-secondary"]:hover {
+    background-color: rgba(150, 110, 120, 0.8) !important;
+    border-color: rgba(150, 110, 120, 0.8) !important;
 }
 </style>
 """, unsafe_allow_html=True)

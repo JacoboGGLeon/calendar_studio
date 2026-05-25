@@ -163,7 +163,7 @@ with st.sidebar:
 
 # --- MAIN LAYOUT ---
 
-tab_calendar, tab_data = st.tabs(["🗓️ Calendar Studio", "🗃️ Data Management"])
+tab_calendar, tab_validation, tab_data = st.tabs(["🗓️ Calendar Studio", "✅ Validación", "🗃️ Data Management"])
 
 with tab_calendar:
     years = sorted(df['año'].unique())
@@ -409,6 +409,39 @@ with tab_calendar:
                                     st.caption("No active offsets")
                     else:
                         st.empty()
+
+with tab_validation:
+    st.header("✅ Validación del calendario generado")
+    st.write("Esta pestaña valida el calendario contra el layout requerido y contra las reglas de negocio. Las banderas son independientes: una fecha puede tener varias columnas en 1.")
+
+    try:
+        report = engine.validate_export_calendar(st.session_state.df)
+        if report.get("ok"):
+            st.success("Calendario válido para consumo downstream.")
+        else:
+            st.error("Calendario inválido: revisa las reglas fallidas antes de exportar.")
+
+        c1, c2 = st.columns(2)
+        c1.metric("Fechas con múltiples banderas", report.get("overlap_count", 0))
+        c2.metric("Máximo de banderas en una fecha", report.get("max_flags_on_one_date", 0))
+
+        checks_df = pd.DataFrame(report.get("checks", []))
+        if not checks_df.empty:
+            checks_df["status"] = checks_df["ok"].map({True: "✅ OK", False: "❌ Revisar"})
+            st.dataframe(checks_df[["status", "check", "detail"]], width="stretch", hide_index=True)
+
+        mismatches = report.get("mismatches", {})
+        if mismatches:
+            st.subheader("Diferencias contra el engine")
+            mismatch_df = pd.DataFrame([
+                {"columna": col, "diferencias": count}
+                for col, count in mismatches.items()
+            ]).sort_values("diferencias", ascending=False)
+            st.dataframe(mismatch_df, width="stretch", hide_index=True)
+        else:
+            st.caption("Sin diferencias contra el engine de reglas.")
+    except Exception as e:
+        st.error(f"No se pudo validar el calendario: {e}")
 
 with tab_data:
     st.header("🗃️ Manage Base Files (.csv)")

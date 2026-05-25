@@ -174,7 +174,9 @@ def compute_working_offset_backward(df, col, k):
             if df.at[curr_idx, "es_habil"] == 1:
                 steps += 1
 
-        if steps == k and df.at[curr_idx, col] != 1:
+        # Flags are independent: an offset may land on a date that is also
+        # the original event or another flag. Do not suppress overlaps.
+        if steps == k:
             res.at[curr_idx] = 1
 
     return res
@@ -195,7 +197,9 @@ def compute_working_offset_forward(df, col, k):
             if df.at[curr_idx, "es_habil"] == 1:
                 steps += 1
 
-        if steps == k and df.at[curr_idx, col] != 1:
+        # Flags are independent: an offset may land on a date that is also
+        # the original event or another flag. Do not suppress overlaps.
+        if steps == k:
             res.at[curr_idx] = 1
 
     return res
@@ -530,3 +534,93 @@ def validate_business_rules(df):
         diagnostics["impuestos_en_no_habil"] = bad_i["fecha"].dt.strftime("%Y-%m-%d").tolist()
 
     return diagnostics
+
+
+def validate_export_calendar(df, holidays_path="festivos.csv"):
+    """
+    Validate the generated calendar as a downstream export contract.
+
+    Important business invariant:
+    flags are independent. A date may have many columns marked as 1; overlaps
+    are valid and expected. Validation must never treat multiple active flags
+    on the same date as an error.
+    """
+    work = df.copy()
+    work = _ensure_internal_columns(work)
+
+    year_min = int(work["fecha"].dt.year.min())
+    year_max = int(work["fecha"].dt.year.max())
+
+    actual = to_required_output_layout(work)
+
+    expected = build_base_calendar(year_min, year_max)
+    expected = run_recalculation_pipeline(expected, holidays_path=holidays_path)
+    expected = to_required_output_layout(expected)
+
+    checks = []
+
+    def add_check(name, ok, detail=""):
+        checks.append({"check": name, "ok": bool(ok), "detail": detail})
+
+    required_cols = required_output_columns()
+    add_check(
+        "layout_columns",
+        list(actual.columns) == required_cols,
+        f"actual={len(actual.columns)} expected={len(required_cols)}",
+    )
+    add_check("row_count", len(actual) == len(expected), f"actual={len(actual)} expected={len(expected)}")
+    add_check("fecha_unique", actual["fecha"].is_unique, "fechas sin duplicados")
+    add_check("no_nulls", not actual.isna().any().any(), "sin valores nulos")
+
+    binary_cols = [c for c in actual.columns if c != "fecha"]
+    non_binary_cols = [c for c in binary_cols if not actual[c].dropna().isin([0, 1]).all()]
+    add_check("binary_flags", not non_binary_cols, ", ".join(non_binary_cols[:10]))
+
+    # Regla madre: fin de semana y festivos generan es_habil internamente.
+    actual_dates = pd.to_datetime(actual["fecha"])
+    expected_weekend = actual_dates.dt.weekday.isin([5, 6]).astype(int)
+    weekend_bad = actual.loc[actual["fin de semana"].astype(int).ne(expected_weekend), "fecha"].tolist()
+    add_check("weekend_flags", not weekend_bad, ", ".join(weekend_bad[:10]))
+
+    compare_cols = [c for c in required_cols if c != "fecha"]
+    mismatches = {}
+    if len(actual) == len(expected):
+        for c in compare_cols:
+            bad = actual[c].astype(int).ne(expected[c].astype(int))
+            if bad.any():
+                mismatches[c] = int(bad.sum())
+    add_check(
+        "derived_rules_match_engine",
+        not mismatches,
+        "; ".join(f"{k}: {v}" for k, v in list(mismatches.items())[:10]),
+    )
+
+    event_cols = [
+        "día de pago de impuestos",
+        "día de cobro de quincena",
+        "día festivo",
+        "primer día hábil de mes impar",
+        "último día hábil de mes impar",
+        "primer día hábil de mes par",
+        "último día hábil de mes par",
+    ]
+    offset_cols = [c for c in actual.columns if "días antes de" in c or "días después de" in c]
+    business_rule_cols = [c for c in event_cols + offset_cols if c in actual.columns]
+    active_flags_per_date = actual[business_rule_cols].sum(axis=1) if business_rule_cols else pd.Series(0, index=actual.index)
+
+    overlap_count = int((active_flags_per_date > 1).sum())
+    max_flags_on_one_date = int(active_flags_per_date.max()) if len(active_flags_per_date) else 0
+    add_check(
+        "overlapping_flags_allowed",
+        True,
+        f"fechas_con_multiples_banderas={overlap_count}; max_banderas_en_una_fecha={max_flags_on_one_date}",
+    )
+
+    ok = all(item["ok"] for item in checks)
+    return {
+        "ok": ok,
+        "checks": checks,
+        "mismatches": mismatches,
+        "overlap_count": overlap_count,
+        "max_flags_on_one_date": max_flags_on_one_date,
+    }

@@ -52,15 +52,28 @@ def load_data(path=DATA_FILE):
         
     return df
 
-def save_data_atomic(df, path=DATA_FILE):
+def save_data_atomic(df, path=DATA_FILE, contract_layout=True):
     """
     Saves DataFrame to CSV atomically (write temp -> rename).
+
+    By default, the persisted calendar respects the downstream export
+    contract: exact column order, 246 columns, and no internal auxiliaries.
     """
     temp_path = path + ".tmp"
     try:
+        out_df = df
+
+        if contract_layout:
+            try:
+                from src import calendar_engine as engine
+            except Exception:
+                import calendar_engine as engine
+
+            out_df = engine.to_required_output_layout(df)
+
         # Use utf-8-sig for Excel compatibility in Spanish
-        df.to_csv(temp_path, index=False, encoding='utf-8-sig')
-        
+        out_df.to_csv(temp_path, index=False, encoding='utf-8-sig')
+
         # Atomic Replace
         if os.path.exists(path):
             os.replace(temp_path, path)

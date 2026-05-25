@@ -70,7 +70,9 @@ with st.sidebar:
         st.rerun()
 
     if st.session_state.df is not None:
-        csv_data = st.session_state.df.to_csv(index=False).encode('utf-8')
+        # Export contract: downstream programs require the exact 246-column layout.
+        export_df = engine.to_required_output_layout(st.session_state.df)
+        csv_data = export_df.to_csv(index=False, encoding='utf-8-sig').encode('utf-8-sig')
         st.download_button(
             label="💾 Descargar Calendario (CSV)",
             data=csv_data,

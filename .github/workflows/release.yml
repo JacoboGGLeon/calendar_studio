@@ -1,0 +1,46 @@
+name: Publish to PyPI
+on:
+  release:
+    types: [published]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e '.[dev,studio]'
+      - run: python -m ruff check src/calendar_studio --exclude _legacy.py
+      - run: python -m pytest -q
+      - name: Verify release version
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: python -c 'import os,calendar_studio; assert os.environ["RELEASE_TAG"] == "v"+calendar_studio.__version__'
+      - run: python -m build
+      - run: python -m twine check dist/*
+      - name: Test installed wheel
+        shell: bash
+        run: |
+          python -m pip install --no-deps --target "$RUNNER_TEMP/calendar-wheel" dist/*.whl
+          export PYTHONPATH="$RUNNER_TEMP/calendar-wheel"
+          export CALENDAR_STUDIO_EXPECTED_PREFIX="$RUNNER_TEMP/calendar-wheel"
+          python -P -m pytest tests --import-mode=importlib -q
+      - uses: actions/upload-artifact@v5
+        with:
+          name: distributions
+          path: dist/*
+  publish:
+    runs-on: ubuntu-latest
+    needs: build
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v6
+        with:
+          name: distributions
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1

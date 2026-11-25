@@ -24,3 +24,9 @@ __pycache__/
 
 # Streamlit caches
 .streamlit/
+
+!src/calendar_studio/data/*.csv
+dist/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/

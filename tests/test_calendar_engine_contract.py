@@ -1,14 +1,14 @@
 import os
-import sys
+import importlib.util
 from pathlib import Path
 
 import pandas as pd
 
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-
-import calendar_engine as engine  # noqa: E402
+spec = importlib.util.spec_from_file_location("reference_calendar_engine", ROOT / "src/calendar_engine.py")
+engine = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(engine)
 
 
 def test_export_layout_matches_required_contract():

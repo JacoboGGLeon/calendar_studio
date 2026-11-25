@@ -1,0 +1,30 @@
+name: Tests and distributions
+on: [push, pull_request]
+permissions:
+  contents: read
+env:
+  OPENBLAS_NUM_THREADS: '1'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install -e '.[dev,studio]'
+      - run: python -m ruff check src/calendar_studio --exclude _legacy.py
+      - run: python -m pytest -q
+      - run: python -m build
+      - run: python -m twine check dist/*
+      - name: Test installed wheel
+        shell: bash
+        run: |
+          python -m pip install --no-deps --target "$RUNNER_TEMP/calendar-wheel" dist/*.whl
+          export PYTHONPATH="$RUNNER_TEMP/calendar-wheel"
+          export CALENDAR_STUDIO_EXPECTED_PREFIX="$RUNNER_TEMP/calendar-wheel"
+          python -P -c 'import calendar_studio,os; assert calendar_studio.__file__.startswith(os.environ["PYTHONPATH"])'
+          python -P -m pytest tests --import-mode=importlib -q
